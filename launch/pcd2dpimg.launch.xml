@@ -6,7 +6,7 @@
   <group>
     <!-- <push-ros-namespace namespace="utils"/> -->
     <node_container pkg="rclcpp_components" exec="component_container_mt" name="livox_util_container" namespace="" output="screen">
-      <composable_node pkg="utils" plugin="utils::LivoxCloudMerger" name="livox_cloud_merger" namespace="">
+      <!-- <composable_node pkg="utils" plugin="utils::LivoxCloudMerger" name="livox_cloud_merger" namespace="">
         <param name="pointcloud1_topic" value="/livox/lidar_192_168_1_101"/>
         <param name="pointcloud2_topic" value="/livox/lidar_192_168_1_102"/>
         <param name="output_topic" value="/livox/merged_cloud"/>
@@ -20,12 +20,12 @@
         <param name="imu_pub_topic" value="/livox/imu"/>
         <param name="frame_id" value="livox_frame"/>
         <extra_arg name="use_intra_process_comms" value="true" />
-      </composable_node>
+      </composable_node> -->
       <composable_node pkg="pcd2dpimg" plugin="pcd2dpimg::Pcd2DpImg" name="pcd2dpimg" namespace="">
-        <param name="lidar_topic" value="/livox/merged_cloud"/>
+        <param name="lidar_topic" value="/velodyne_points"/>
         <param name="image_topic" value="/front_realsense/color/image_raw "/>
         <param name="camera_info_topic" value="/front_realsense/color/camera_info"/>
-        <param name="lidar_frame_id" value="livox_frame"/>
+        <param name="lidar_frame_id" value="velodyne"/>
         <param name="output_topic" value="/front_realsense/depth_registered/image_raw"/> 
         <extra_arg name="use_intra_process_comms" value="true" />
       </composable_node>
@@ -34,8 +34,9 @@
 
   <!-- tf -->
   <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.0 0.0 0.665 0.0 0.0 0.0 base_link livox_frame" />
-    <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.378 0.0 -0.10 0.0 0.0 0.0 livox_frame front_realsense_link" />
-  <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.0 0.0 0.295 0.0 0.0 0.0 base_link velodyne" />
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.378 0.0 -0.10 0.0 0.0 0.0 livox_frame front_realsense_link" />
+  <!-- <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.378 0.0 -0.41 0.0 0.0 0.0 front_realsense_link front_realsense_depth_frame" /> -->
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.0 0.0 0.410 0.0 0.0 0.0 base_link velodyne" />
   <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.0 0.0 0.395 0.0 0.0 0.0 base_link hesai_lidar" />
   <!-- <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.378 0.0 0.0 0.0 0.0 0.0 base_link front_realsense_link" /> -->
   <!-- <node pkg="tf2_ros" exec="static_transform_publisher" name="static_transform_publisher" output="screen" args="0.0 0.0 0.6 0.0 0.0 0.0 base_footprint base_link" /> -->
